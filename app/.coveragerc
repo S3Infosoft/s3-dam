@@ -1,0 +1,12 @@
+[run]
+source = .
+parallel = True
+omit =
+  */tests/*
+  *apps.py
+  *__init__.py
+  */migrations/*
+  */manage.py
+  */admin.py
+  */settings.py
+  */wsgi.py

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}Schedule Handling :: {% endblock title %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/bootstrap-datepicker.min.css' %}">
+{% endblock extra_css %}
+
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      <input class="form-control" type="text" name="search_text" placeholder="Search Text">
+    </div>
+    {% for field in form %}
+      <div class="form-group">
+        {{ field }}
+      </div>
+    {% endfor %}
+    <button class="btn btn-primary" type="submit">Run</button>
+  </form>
+{% endblock content %}
+
+{% block extra_script %}
+   <script src="{% static 'js/bootstrap-datepicker.min.js' %}" type="text/javascript"></script>
+  <script>
+  $(function () {
+
+        const dateObj = new Date();
+        const day = dateObj.getDate();
+        const month = dateObj.getMonth();
+        const year = dateObj.getFullYear();
+
+        const today = `${month}/${day}/${year}`;
+        console.log(today);
+        $('.datepicker').datepicker({
+            format: "mm/dd/yyyy",
+            startDate: today,
+            maxViewMode: 2,
+            todayBtn: "linked",
+            clearBtn: true,
+            orientation: "top auto",
+            autoclose: true,
+            todayHighlight: true
+        });
+    });
+  </script>
+{% endblock extra_script %}

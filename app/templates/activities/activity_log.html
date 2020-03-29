@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}Activity Log :: {% endblock title %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'vendor/datatables/dataTables.bootstrap4.min.css' %}">
+{% endblock extra_css %}
+
+{% block content %}
+  <div class="card shadow mb-4">
+    <div class="card-header py-2">
+      <h6 class="mt-2 text-lg font-weight-bold text-primary float-left">Activity Log</h6>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Name</th>
+              <th>Content Type</th>
+              <th>Event Type</th>
+              <th>User</th>
+              <th>Date</th>
+              <th>Changed Fields</th>
+            </tr>
+          </thead>
+          <tfoot>
+            <tr>
+              <th></th>
+              <th>Name</th>
+              <th>Content Type</th>
+              <th>Event Type</th>
+              <th>User</th>
+              <th>Date</th>
+              <th>Changed Fields</th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block extra_script %}
+  <script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
+  <script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+
+  <script>
+      $.ajax({
+        url: address.origin + "{% url 'activity_log' %}",
+        method: "GET",
+        dateType: "json",
+        success: function(data) {
+            $("#dataTable").dataTable({
+              "aaData": data,
+              "aaSorting": [],    // disable the initial sorting
+              "columns": [
+                  {"data": "id"},
+                  {"data": "object_repr"},
+                  {"data": "content_type"},
+                  {"data": "event_type"},
+                  {"data": "user"},
+                  {"data": "datetime"},
+                  {"data": "changed_fields"},
+              ],
+              "order": [[0, "desc"]],
+              "columnDefs": [
+                {
+                    "targets": [0],
+                    "visible": false,
+                    "search": false,
+                },
+                {
+
+                  "targets": [6],
+                  "render": function(data, type, row) {
+                      let html_data = "";
+                      if (data && data != "null") {
+                          let json = JSON.parse(data);
+                          let keys = Object.keys(json);
+                          for (let key of keys) {
+                              let change = `<p class="mb-n1">${key}: ${json[key][0].substring(0, 150)} -> ${json[key][1].substring(0, 150)}`;
+                              html_data = html_data + change;
+                          }
+                      }
+                      return html_data
+                  },
+                },
+                {
+                  "targets": 5,
+                  "render": function(data, type, row) {
+                    return formatDate(data);
+                  },
+                },
+              ]
+          });
+        },
+        error: function(err){
+            console.log(err);
+        }
+    })
+
+
+  </script>
+{% endblock extra_script %}

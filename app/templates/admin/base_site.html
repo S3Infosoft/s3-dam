@@ -1,0 +1,14 @@
+{% extends "admin/base.html" %}
+{% load staticfiles %}
+
+{% block branding %}
+ <div style="display: inline-flex;">
+   <img src="{% static 'img/icon/favicon-32x32.png' %}">
+  <span style="margin-top: 11px; font-size: 20px; font-weight: bold">MVR INSIGHTS</span>
+ </div>
+{% endblock branding %}
+
+
+{% block extrastyle %}
+  <link rel="stylesheet"   href="{% static 'css/admin.css' %}">
+{% endblock extrastyle %}

@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}Schedules :: {% endblock title %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'vendor/datatables/dataTables.bootstrap4.min.css' %}">
+{% endblock extra_css %}
+
+{% block content %}
+  <div class="card shadow mb-4">
+    <div class="card-header py-2">
+      <h6 class="mt-2 text-lg font-weight-bold text-primary float-left">Scheduled Data</h6>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th>Job ID</th>
+              <th>OTA</th>
+              <th>User</th>
+              <th>Check In</th>
+              <th>Check Out</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tfoot>
+            <tr>
+              <th>Job ID</th>
+              <th>OTA</th>
+              <th>User</th>
+              <th>Check In</th>
+              <th>Check Out</th>
+              <th>Status</th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block extra_script %}
+  <script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
+  <script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+
+  <script>
+    $(document).ready(function() {
+      const tableID = "#dataTable";
+      let apiPathname;
+        if (address.pathname.endsWith("/uncomplete/")){
+          apiPathname = "{% url 'api_schedule_unfinished' %}";
+        } else {
+          apiPathname = "{% url 'api_schedule_finished' %}";
+        }
+        const columns = [
+                      {"data": "id"},
+                      {"data": "ota_name"},
+                      {"data": "creator"},
+                      {"data": "check_in_date"},
+                      {"data": "check_out_date"},
+                      {"data": "status"},
+                  ];
+
+        $.ajax({
+            url: address.origin + apiPathname,
+            method: "GET",
+            dataType: "json",
+            success: function(data) {
+                $(tableID).dataTable({
+                    "aaData": data,
+                    "aaSorting": [],    // disable the initial sorting
+                    "columns": columns,
+                    "order": [[0, "desc"]],
+                    "columnDefs": [
+                        {
+
+                            "targets": 0,
+                            "render": function(data, type, row) {
+                                let rowID = row["id"];
+
+                                return `<a href="${rowID}/">${data}</a>`
+                            },
+                        },
+                      {
+                        "targets": 3,
+                        "render": function(data, type, row) {
+                          return formatDate(data);
+                        }
+                      },
+                      {
+                        "targets": 4,
+                        "render": function(data, type, row) {
+                          return formatDate(data);
+                        }
+                      },
+                      {
+                        "targets": 5,
+                        "render": function(data, type, row) {
+                          let color = null
+                          if (data == "FINISHED") {
+                            color = "success";
+                          } else if (data == "FAILED") {
+                            color = "danger";
+                          } else if (data == "PENDING" || data == "EXECUTING") {
+                            color = "primary";
+                          }
+
+                          return `<span class="btn btn-batch btn-${color}">${data}</span>`
+                        }
+                      }
+                    ]
+                });
+            }
+        });
+
+    })
+  </script>
+{% endblock extra_script %}

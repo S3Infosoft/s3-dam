@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }} :: {% endblock title %}
+
+{% block content %}
+  <div class="container">
+    <div class="card">
+      <div class="card-header">
+        <span class="text-dark">Name:</span> <span class="text-dark text-lg font-weight-bold"></span>
+      </div>
+      <div class="card-body text-dark">
+        Partner Type: <span class="text-lg"></span><br>
+        Contact Person: <span class="text-lg"></span><br>
+        Contact Number: <span class="text-lg"></span><br>
+        Contact Email: <span class="text-lg"></span><br>
+      </div>
+    </div>
+      <div id="enquiryEdit" class="mt-3">
+        <div class="mb-3">
+          <button class="btn btn-success mr-auto" data-toggle="collapse" data-target="#enquiryUpdate" >Update</button>
+          <button class="btn btn-danger ml-2" data-toggle="collapse" data-target="#enquiryDelete" >Delete</button>
+        </div>
+      <div id="enquiryUpdate" class="collapse {% if form.errors %}show alert alert-danger{% endif %}" data-parent="#enquiryEdit">
+        <form id="enquiryUpdateForm" class="form" method="post" enctype="multipart/form-data">
+          <div class="row font-weight-bold">
+            {% csrf_token %}
+              <div class="col-6">
+                <div class="form-group mb-0 mt-n2">
+                  <label for="id_name" class="col-form-label text-dark font-weight-bold">Name:</label>
+                  {{ form.name }}
+                  <div class="text-danger">
+                    {{ form.name.errors }}
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group mb-0 mt-n2">
+                  <label for="id_name" class="col-form-label text-dark font-weight-bold">Partner Type:</label>
+                  {{ form.partner_type }}
+                  <div class="text-danger">
+                    {{ form.partner_type.errors }}
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-6">
+                <div class="form-group mb-0">
+                  <label for="id_contact_person" class="col-form-label text-dark font-weight-bold">Contact Person:</label>
+                  {{ form.contact_person }}
+                  <div class="text-danger">
+                    {{ form.contact_person.errors }}
+                  </div>
+                </div>
+              </div>
+
+            <div class="col-6">
+              <div class="form-group mb-0">
+                <label for="id_contact_number" class="col-form-label text-dark font-weight-bold">Contact Number:</label>
+                {{ form.contact_number }}
+                <div class="text-danger">
+                  {{ form.contact_number.errors }}
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+                 <label for="id_contact_email" class="col-form-label text-dark font-weight-bold">Contact Email:</label>
+                  {{ form.contact_email }}
+              <div class="text-danger">
+                {{ form.contact_email.errors }}
+              </div>
+                </div>
+            </div>
+
+            <button class="btn btn-success mt-3" type="submit">Save Changes</button>
+        </form>
+      </div>
+
+      <div id="enquiryDelete" class="collapse" data-parent="#enquiryEdit">
+        <form id="enquiryDeleteForm" method="post">
+          {% csrf_token %}
+          Sure to delete this Partner?
+          <button class="btn btn-danger ml-2">Yes! Delete</button>
+        </form>
+      </div>
+      </div>
+
+      </div>
+
+{% endblock content %}
+
+{% block extra_script %}
+  <script>
+    let dataAttachSequence = ["name", "partner_type_display",
+                              "contact_person", "contact_number",
+                              "contact_email"];
+    let api_address = address.pathname.replace("enquiry", "api/v1");
+
+    let cardBodySpans = $("div.card-body span");
+    let cardHeaderSpan = $("div.card-header span")[1];
+    attachLocations= cardBodySpans.add(cardHeaderSpan);
+
+    let afterDeleteURL = "{% url 'enquiry:partner' %}";
+
+
+    $(document).ready(function(){
+      fetchEnquiryInstanceData(api_address, attachLocations, dataAttachSequence);
+
+      $("#enquiryUpdateForm").submit(function(e) {
+        e.preventDefault();
+        console.log("Enquiry Updation requested");
+        const this_ = $(this);
+        objectUpdateDelete(this_, true);
+      });
+
+      $("#enquiryDeleteForm").submit(function(e) {
+        e.preventDefault();
+        console.log("Enquiry Deletion requested");
+        const this_ = $(this);
+        objectUpdateDelete(this_, false, true);
+      })
+    });
+  </script>
+{% endblock extra_script %}

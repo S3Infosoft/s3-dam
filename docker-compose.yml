@@ -1,0 +1,86 @@
+version: "3"
+
+services:
+  app:
+    container_name: django
+    restart: always
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/app
+    environment:
+      - DB_NAME=app
+      - DB_USER=insights
+      - DB_HOST=db
+      - DB_PORT=5432
+    depends_on:
+      - db
+      # - mvrautomation
+      # - selenium-hub
+      # - chrome
+      # - firefox
+    command: >
+      sh -c "mkdir -p logs media &&
+             python manage.py wait_for_db &&
+             python manage.py runserver 0.0.0.0:8000"
+  db:
+    image: postgres:11.4-alpine
+    container_name: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=insights
+      - POSTGRES_DB=app
+  background_tasks:
+    restart: always
+    container_name: process_tasks
+    build:
+      context: .
+    depends_on:
+      - app
+      - db
+    environment:
+      - DB_NAME=app
+      - DB_USER=insights
+      - DB_HOST=db
+      - DB_PORT=5432
+    volumes:
+      - ./app:/app
+    command: >
+      sh -c "python manage.py process_tasks --sleep=3 --log-std --traceback"
+  # mvrautomation:
+  #   restart: always
+  #   container_name: mvr_automation
+  #   image: s3infosoft/mvr-automation:v0.3
+  #   ports:
+  #     - "5000:5000"
+  #   command: >
+  #     sh -c "python3 App.py"
+  # selenium-hub:
+  #   restart: always
+  #   image: selenium/hub:3.141.59-bismuth
+  #   container_name: selenium-hub
+  #   ports:
+  #     - "4444:4444"
+  # chrome:
+  #   restart: always
+  #   container_name: selenium_chrome
+  #   image: selenium/node-chrome:3.141.59-bismuth
+  #   depends_on:
+  #     - selenium-hub
+  #   environment:
+  #     - HUB_HOST=selenium-hub
+  #     - HUB_PORT=4444
+  # firefox:
+  #   restart: always
+  #   container_name: selenium_firefox
+  #   image: selenium/node-firefox:3.141.59-bismuth
+  #   depends_on:
+  #     - selenium-hub
+  #   environment:
+  #     - HUB_HOST=selenium-hub
+  #     - HUB_PORT=4444
+volumes:
+    postgres_data:

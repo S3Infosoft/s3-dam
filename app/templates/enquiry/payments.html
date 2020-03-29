@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+  <div id="reportFormDiv" class="col-lg-8 mx-auto">
+    <div class="card">
+      <div class="card-header">
+        <h5>Payments</h5>
+      </div>
+      <div class="card-body">
+        <form id="reportForm" method="post">
+          {% csrf_token %}
+            <div class="form-group">
+              <label class="font-weight-bold" for="startDate">Start Date</label>
+              <input type="date"  id="startDate" class="form-control">
+            </div>
+          <div class="form-group">
+              <label class="font-weight-bold" for="endDate">End Date</label>
+              <input type="date" id="endDate" class="form-control">
+            </div>
+          <button class="btn btn-success" name="reportGET" type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div id="reportResult" class="card shadow mb-4 d-none">
+    <div class="card-header py-2">
+      <h6 class="mt-2 text-lg font-weight-bold text-primary float-left"><span class="reportName"></span> Report <span class="reportDuration text-gray-500"></span> <button id="reportDurationBtn" class="btn btn-outline-secondary btn-sm">Change</button> </h6>
+      <button id="reportEmail"
+              class="btn btn-sm btn-dark btn-icon-split float-right mr-2"
+              data-toggle="modal"
+              data-target="#reportEmailFormModal">
+        <span class="icon text-white-50">
+          <i class="fa fa-at"></i>
+        </span>
+        <span class="text">Email</span>
+      </button>
+      <a id="reportPDF"
+              class="btn btn-sm btn-primary btn-icon-split float-right mr-2"
+              href="#">
+        <span class="icon text-white-50">
+          <i class="fa fa-file-pdf"></i>
+        </span>
+        <span class="text">PDF</span>
+      </a>
+      <a id="reportCSV"
+              class="btn btn-sm btn-primary btn-icon-split float-right mr-2"
+
+          href="#">
+        <span class="icon text-white-50">
+          <i class="fa fa-file-csv"></i>
+        </span>
+        <span class="text">CSV</span>
+      </a>
+    </div>
+      <div class="card-body">
+        <div class="table-responsive">
+
+        <div id="reportDivOTA" class="d-none">
+            <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Booking ID</th>
+                  <th>No Of Nights</th>
+                  <th>Check In</th>
+                  <th>Check Out</th>
+                  <th>Hotel Sell Price</th>
+                  <th>Primary Guest</th>
+                  <th>Email</th>
+                  <th>Room Category</th>
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <th></th>
+                  <th>Booking ID</th>
+                  <th>No Of Nights</th>
+                  <th>Check In</th>
+                  <th>Check Out</th>
+                  <th>Hotel Sell Price</th>
+                  <th>Primary Guest</th>
+                  <th>Email</th>
+                  <th>Room Category</th>
+                </tr>
+              </tfoot>
+            </table>
+
+        </div>
+
+        </div>
+      </div>
+  </div>
+
+
+  <div id="reportError" class="d-none"></div>
+
+
+  <div class="modal fade" id="reportEmailFormModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header text-dark">
+          <h5 class="modal-title" id="exampleModalLabel">Email</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body text-center">
+          <form id="reportEmailForm" method="post" action="">
+            {% csrf_token %}
+            {% for field in email_form %}
+              <div class="form-group">
+                <label class="font-weight-bolder" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+              </div>
+            {% endfor %}
+          <button class="btn btn-secondary mt-2" type="button" data-dismiss="modal">Cancel</button>
+          <button type="submit" name="email" class="btn btn-primary mt-2">Email</button>
+          </form>
+
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+{% block extra_script %}
+  <script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
+  <script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+<script>
+
+function reformatDate(date) {
+  // Function to reformat date to DD-MM-YYYY
+  const splitDate = date.split("-");
+  return `${splitDate[2]}-${splitDate[1]}-${splitDate[0]}`
+}
+
+const col = [
+                  {"data": "id"},
+                  {"data": "Booking_ID"},
+                  {"data": "No_of_nights"},
+                  {"data": "Check_In"},
+                  {"data": "Check_Out"},
+                  {"data": "Hotel_Sell_Price"},
+                  {"data": "Primary_Guest"},
+                  {"data": "E_mail"},
+                  {"data": "Room_Category"},
+              ];
+
+function buildTable(data, tableID, column) {
+    table = $(tableID).dataTable({
+        "aaData": data,
+        "aaSorting": [],    // disable the initial sorting
+        "columns": column,
+        "order": [[0, "desc"]],
+        "columnDefs": [
+            {
+                "targets": [0],
+                "visible": false,
+                "search": false,
+            },
+        ]
+    });
+
+    return table
+}
+  $("#reportForm").on("submit", function(e) {
+    e.preventDefault();
+    console.log("Form submit");
+    const this_ = $(this);
+    const startDate = this_.find("#startDate");
+    const endDate = this_.find("#endDate");
+    $.ajax({
+      url: `http://localhost:8001/api/v1/audit/gommt/${reformatDate(startDate.val())}/${reformatDate(endDate.val())}`,
+      method: "GET",
+      success: function(data) {
+        $("#reportResult").removeClass("d-none");
+        $("#reportDivOTA").removeClass("d-none");
+        $("#reportFormDiv").addClass("d-none");
+        console.log(data);
+        buildTable(data, "#dataTable", col, )
+      },
+      error: function(err) {
+        console.log(err);
+      }
+    })
+  });
+</script>
+{% endblock extra_script %}

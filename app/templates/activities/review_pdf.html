@@ -1,0 +1,100 @@
+<html lang="en">
+  <head>
+    <title>{{ title }} Report [{{ start_date }} to {{ end_date }}]</title>
+    <style>
+      table.content {
+        border-bottom: 1px solid lightgray;
+      }
+      thead {
+        font-size: 15px;
+      }
+      th {
+        padding-top: 2px;
+      }
+      tbody {
+        font-size: 12px;
+      }
+      td {
+        padding-top: 2px;
+        padding-left: 2px;
+        text-wrap: normal;
+      }
+
+      .left {
+        text-align: left;
+        align-content: start;
+        align-items: start;
+      }
+
+      .right {
+        text-align: right;
+        align-content: end;
+        align-items: end;
+      }
+
+      .center {
+        max-width: 90px;
+        align-content: center;
+        align-items: center;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="top-nav">
+      {% if logo %}
+        {% if address %}
+          <table class="nav-table">
+            <tr>
+              <td>
+                <div class="left">
+                  <img src="{{ logo.path }}" width="80px">
+                </div>
+              </td>
+              <td>
+                <div class="right">
+                  {{ address|linebreaks }}
+                </div>
+              </td>
+            </tr>
+          </table>
+        {% else %}
+          <div class="center">
+            <img src="{{ logo.path }}" width="80px">
+          </div>
+        {% endif %}
+      {% elif address%}
+        <div class="center">
+          {{ address|linebreaks }}
+        </div>
+      {% else %}
+        <div class="center">
+          <img src="/app/static/img/icon/favicon-96x96.png" width="80px">
+        </div>
+      {% endif %}
+    </nav>
+    <h2 align="center">{{ title }} Report [{{ start_date }} to {{ end_date }}]</h2>
+    <table class="content">
+      <thead>
+        <tr>
+          <th>Headline</th>
+          <th>Source</th>
+          <th>Created</th>
+          <th>Rating</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+       {% for object in objects %}
+          <tr>
+            <td>{{ object.headline }}</td>
+            <td>{{ object.source }}</td>
+            <td>{{ object.created }}</td>
+            <td>{{ object.get_rating_display }}</td>
+            <td>{{ object.action }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>
