@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }} :: {% endblock title %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card shadow text-center" style="margin:5%;">
+        <div class="card-header py-2 text-center" >
+          <span class="text-dark text-lg font-weight-bold"> Upload Document </span>
+        </div>
+        <div class="card-body">
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="custom-file">
+            <input type="file" class="custom-file-input" name="myfile">
+            <label class="custom-file-label" for="customFile">Choose file</label>
+          </div>
+             <button type="submit" class="btn btn-primary" style="width:100%;  margin-top: 10%;">Upload</button>
+      </div>
+     </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card shadow text-center" style="margin:5%;">
+        <div class="card-header py-2 text-center" >
+          <span class="text-dark text-lg font-weight-bold"> Upload Photo </span>
+        </div>
+        <div class="card-body">
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="custom-file">
+            <input type="file" class="custom-file-input" name="myfile">
+            <label class="custom-file-label" for="customFile">Choose file</label>
+          </div>
+             <button type="submit" class="btn btn-primary" style="width:100%; margin-top: 10%;">Upload</button>
+      </div>
+     </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block extra_script %}
+<script>
+    // scrip to display name of the file appear on select
+    $(".custom-file-input").on("change", function() {
+    var fileName = $(this).val().split("\\").pop();
+    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+</script>
+{% endblock extra_script %}
