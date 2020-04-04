@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ title }} :: {% endblock title %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card shadow text-center" style="margin:5%;">
+        <div class="card-header py-2 text-center" >
+          <span class="text-dark text-lg font-weight-bold"> Upload zip photo </span>
+        </div>
+        <div class="card-body">
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+             {{zipform|crispy}}
+             <button type="submit" class="btn btn-primary" style="width:100%;  margin-top: 10%;">Upload</button>
+        </form>
+      </div>
+     </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card shadow text-center" style="margin:5%;">
+        <div class="card-header py-2 text-center" >
+          <span class="text-dark text-lg font-weight-bold"> Upload Photo </span>
+        </div>
+        <div class="card-body">
+          <form id="example-form" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ imageform|crispy }}
+            <button type="submit" class="btn btn-primary" style="width:100%;  margin-top: 10%;">Upload</button>
+         </form>
+      </div>
+     </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block extra_script %}
+<script>
+</script>
+{% endblock extra_script %}

@@ -1,32 +1,38 @@
 from django.shortcuts import render
-from django.core.files.storage import FileSystemStorage
-import requests
 from django.contrib import messages
+from django.urls import reverse
+from django.http import JsonResponse
+from .forms import PhotoUploadForm
+from photologue.forms import UploadZipForm
 
 
-def upload(request):
-    if request.method == 'POST':
-        try :
-            file = request.FILES['myfile']
-            fs = FileSystemStorage()
-            filename = fs.save(file.name, file)
-            with open(filename, mode='rb') as file_object:
-                requests.post('http://localhost:8000/api/documents/', auth=('admin',
-                                                                        '5YxqGjPLLk'), files={'file': file_object}, data={'document_type': 1}).json()
+def uploadPhoto(request):
+    if request.method == "POST":
 
-        except:
-             messages.info(
-                request, f"error occur, please try again"
-            )
+        imageform = PhotoUploadForm(request.POST or None)
+        zipform = UploadZipForm(request.POST or None)
+        
+        if imageform.is_valid():
+            imageform.save()
+        if zipform.is_valid():
+            zipform.save()
 
-        data = {
-            'title': 'upload'
-        }
+        messages.success(request,'photos uploaded')
+        return redirect('uploadPhoto')
 
-        return render(request, "upload/upload.html", data)
-
+    imageform = PhotoUploadForm()
+    zipform = UploadZipForm()
     data = {
-        'title': 'upload'
+        'title':'upload image',
+        'imageform':imageform,
+        'zipform':zipform,
     }
+    return render(request,'upload/uploadPhoto.html',data)
 
-    return render(request, "upload/upload.html", data)
+def uploadDocument(request):
+    if request.method == 'post':
+        pass
+    data={
+        'title':'upload document',
+    }
+    return render(request,'upload/uploadDocument.html',data)

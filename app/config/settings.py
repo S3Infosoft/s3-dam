@@ -32,6 +32,10 @@ INSTALLED_APPS = [
     "import_export",
     "easyaudit",
     "debug_toolbar",
+    "crispy_forms",
+    "photologue",
+    #"mayan-edms",
+    "sortedm2m",
     "background_task",
     "allauth",
     "allauth.account",
@@ -198,8 +202,12 @@ LOGGING = {
     },
 }
 
+
+CRISPY_TEMPLATE_PACK = "bootstrap4"
+
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+FILE_UPLOAD_PERMISSIONS = 0o644
 
 # django-import-export
 IMPORT_EXPORT_USE_TRANSACTIONS = True

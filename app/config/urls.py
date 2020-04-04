@@ -1,11 +1,14 @@
 from django.conf import settings
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include,re_path
 from django.conf.urls.static import static
 import debug_toolbar
 
 urlpatterns = [
     path("schedule/", include("schedules.urls", namespace="schedule")),
+
+    path('photologue/', include('photologue.urls', namespace='photologue')),
+    
     path("accounts/", include("allauth.urls")),
     path("activity/", include("activities.urls", namespace="activity")),
     path("enquiry/", include("enquiry.urls", namespace="enquiry")),
