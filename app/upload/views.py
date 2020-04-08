@@ -1,5 +1,5 @@
 import requests
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.urls import reverse
 from django.http import JsonResponse
@@ -9,24 +9,22 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 
 
-
 def uploadPhoto(request):
     if request.method == "POST":
 
-        imageform = PhotoUploadForm(request.POST or None)
-        zipform = UploadZipForm(request.POST or None)
+        imageform = PhotoUploadForm(request.POST or None, request.FILES or None)
+        zipform = UploadZipForm(request.POST or None, request.FILES or None)
+
+        print(imageform.errors)
 
         if imageform.is_valid():
-            instance = imageform.save(commit=False)
-            instance.user = request.user
-            instance.save()
+            imageform.save()
+            messages.success(request, "photos uploaded")
+
         if zipform.is_valid():
-            instance = zipform.save(commit=False)
-            instance.user = request.user
-            instance.save()
+            zipform.save()
+            messages.success(request, "photos uploaded")
 
-
-        messages.success(request, "photos uploaded")
         return redirect("uploadPhoto")
 
     imageform = PhotoUploadForm()

@@ -7,4 +7,5 @@ from django import forms
 class PhotoUploadForm(forms.ModelForm):
     class Meta:
         model = Photo
-        fields = '__all__'
+        fields = "__all__"
+

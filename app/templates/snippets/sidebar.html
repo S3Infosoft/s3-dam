@@ -33,7 +33,7 @@
         <li class="nav-item">
           <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUpload" aria-expanded="true" aria-controls="collapsePages">
             <i class="fas fa-fw fa-folder"></i>
-            <span>DAM</span>
+            <span>upload asset</span>
           </a>
           <div id="collapseUpload" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
@@ -45,6 +45,20 @@
         </li>
 
         <li class="nav-item">
+          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseView" aria-expanded="true" aria-controls="collapsePages">
+            <i class="fas fa-fw fa-folder"></i>
+            <span>view asset</span>
+          </a>
+          <div id="collapseView" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+              <h6 class="collapse-header">upload</h6>
+                <a class="collapse-item" href="{% url 'photo' %}">view photo</a>
+                <a class="collapse-item" href="{% url 'gallery' %}">view photo gallery</a>
+            </div>
+          </div>
+        </li>
+
+        {% comment %} <li class="nav-item">
           <a class="nav-link collapsed admin" href="#" data-toggle="collapse" data-target="#collapseAdmin" aria-expanded="true" aria-controls="collapsePages">
             <i class="fas fa-fw fa-folder"></i>
             <span>Admin</span>
@@ -97,7 +111,7 @@
                 <a class="collapse-item" href="{% url 'enquiry:payment_list' %}">Show Details</a>
             </div>
           </div>
-        </li>
+        </li> {% endcomment %}
 
       {% endif %}
 
