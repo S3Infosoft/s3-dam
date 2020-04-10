@@ -4,11 +4,30 @@ from django.urls import path, include,re_path
 from django.conf.urls.static import static
 import debug_toolbar
 
-urlpatterns = [
-    path("schedule/", include("schedules.urls", namespace="schedule")),
+###### photogue and sitemap ################
+from photologue.views import GalleryListView
+from photologue.views import PhotoListView
+from photologue.sitemaps import GallerySitemap, PhotoSitemap
+from django.contrib.sitemaps.views import sitemap
+###########################################
 
-    path('photologue/', include('photologue.urls', namespace='photologue')),
-    
+sitemaps = {
+                'photologue_galleries': GallerySitemap,
+                'photologue_photos': PhotoSitemap,
+}
+
+urlpatterns = [
+
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps }, name='django.contrib.sitemaps.views.sitemap'),
+
+    path("photologue", include('photologue.urls', namespace='photologue')),
+    path("photolist", PhotoListView.as_view(), name="photo"),
+    path("gallerylist", GalleryListView.as_view(paginate_by=5), name="gallery"),
+
+
+
+
+    path("schedule/", include("schedules.urls", namespace="schedule")),
     path("accounts/", include("allauth.urls")),
     path("activity/", include("activities.urls", namespace="activity")),
     path("enquiry/", include("enquiry.urls", namespace="enquiry")),

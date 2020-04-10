@@ -14,3 +14,4 @@ django-allauth>=0.39.1,<0.50.0
 django-rest-auth>=0.9.5,<1.0.0
 django-photologue
 django-crispy-forms
+mayan-edms
