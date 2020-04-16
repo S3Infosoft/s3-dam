@@ -30,14 +30,12 @@ services:
 
   db:
     image: postgres:11.4-alpine
-    container_name: db
+    container_name: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
       - POSTGRES_USER=insights
       - POSTGRES_DB=app
-      - POSTGRES_HOST=db
-      - POSTGRES_PORT=5432
     networks:
       - bridge
 
@@ -63,7 +61,7 @@ services:
     image: redis:5.0-alpine
     networks:
       - bridge
-    restart: unless-stopped
+    restart: always
     volumes:
       - redis_data:/data
 
@@ -74,7 +72,6 @@ services:
     ports:
       - "80:8000"
     depends_on:
-      - app
       - db
       - redis
     volumes:
@@ -82,7 +79,7 @@ services:
     environment: &mayan_env
       MAYAN_CELERY_BROKER_URL: redis://:${MAYAN_REDIS_PASSWORD:-mayanredispassword}@redis:6379/0
       MAYAN_CELERY_RESULT_BACKEND: redis://:${MAYAN_REDIS_PASSWORD:-mayanredispassword}@redis:6379/1
-      MAYAN_DATABASES: "{'default':{'ENGINE':'django.db.backends.postgresql','NAME':'app','USER':'insights','HOST':'db' , 'PORT':'5432'}}"
+      MAYAN_DATABASES: "{'default':{'ENGINE':'django.db.backends.postgresql','NAME':'app','USER':'insights','HOST':'db'}}"
       MAYAN_DOCKER_WAIT: "db:5432 redis:6379"
     networks:
       - bridge
@@ -108,7 +105,6 @@ services:
       sh -c "python manage.py process_tasks --sleep=3 --log-std --traceback"
 
 volumes:
-  app:
   postgres_data:
   redis_data:
   mayanedms_data:
