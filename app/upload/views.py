@@ -23,7 +23,7 @@ def uploadPhoto(request):
 
         if zipform.is_valid():
             zipform.save()
-            messages.success(request, "photos uploaded")
+            messages.success(request, "zip of photos uploaded")
 
         return redirect("uploadPhoto")
 

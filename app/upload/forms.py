@@ -7,5 +7,4 @@ from django import forms
 class PhotoUploadForm(forms.ModelForm):
     class Meta:
         model = Photo
-        fields = "__all__"
-
+        exclude = ('sites','date_added',)
