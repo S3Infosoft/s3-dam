@@ -25,12 +25,7 @@ urlpatterns = [
     path("gallerylist", GalleryListView.as_view(paginate_by=5), name="gallery"),
 
 
-
-
-    path("schedule/", include("schedules.urls", namespace="schedule")),
     path("accounts/", include("allauth.urls")),
-    path("activity/", include("activities.urls", namespace="activity")),
-    path("enquiry/", include("enquiry.urls", namespace="enquiry")),
     path('admin/', admin.site.urls),
     path("api/v1/", include("apis.urls")),
     path("", include("users.urls")),

@@ -44,9 +44,6 @@ INSTALLED_APPS = [
     # Apps
     "users.apps.UsersConfig",
     "upload",
-    "enquiry.apps.EnquiryConfig",
-    "schedules.apps.SchedulesConfig",
-    "activities.apps.ActivitiesConfig",
     "apis.apps.ApisConfig",
 ]
 

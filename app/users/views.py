@@ -1,7 +1,5 @@
 from .models import GlobalInfo
 from .forms import RegisterForm, GlobalInfoForm
-from enquiry.models import OTA, Review, Partner
-from schedules.models import Schedule
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
@@ -61,20 +59,7 @@ class ProfileDetailUpdate(mixins.LoginRequiredMixin,
 
 @decorators.login_required
 def index(request):
-    ota_count = OTA.objects.count()
-    partner_count = Partner.objects.count()
-    review_count = Review.objects.count()
-    schedules = Schedule.objects.all()
-    pending_count = schedules.filter(status__in=["PENDING",
-                                                 "EXECUTING"]).count()
-    finished_count = schedules.count() - pending_count
-    ctx = {"ota_count": ota_count,
-           "partner_count": partner_count,
-           "review_count": review_count,
-           "pending_count": pending_count,
-           "finished_count": finished_count}
-
-    return render(request, "index.html", ctx)
+    return render(request, "index.html")
 
 
 class LoginView(SuccessMessageMixin, views.LoginView):
