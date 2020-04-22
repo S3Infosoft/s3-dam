@@ -1,0 +1,19 @@
+language: python
+python:
+  - "3.6"
+
+services:
+  - docker
+
+before_script:
+  - pip install docker-compose
+  - pip install coveralls
+  - docker-compose run --user='root' app chmod -R 777 .
+
+script:
+  - docker-compose run app sh -c "mkdir logs/ && coverage run --parallel-mode --source=. manage.py test && flake8"
+
+after_success:
+  - cp app/.coverage.* ./
+  - coverage combine
+  - coveralls
