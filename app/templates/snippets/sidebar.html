@@ -1,19 +1,10 @@
 {% load static %}
 <!-- Sidebar -->
-<ul
-	class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
-	id="accordionSidebar"
->
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 	<!-- Sidebar - Brand -->
-	<a
-		class="sidebar-brand d-flex align-items-center justify-content-center"
-		href="{% url 'index' %}"
-	>
+	<a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'index' %}">
 		<div class="sidebar-brand-icon rotate-n-15">
-			<img
-				class="img-responsive"
-				src="{% static 'img/icon/favicon-32x32.png' %}"
-			/>
+			<img class="img-responsive" src="{% static 'img/icon/favicon-32x32.png' %}" />
 		</div>
 		<div class="sidebar-brand-text mx-3">S3 - DAM</div>
 	</a>
@@ -25,8 +16,7 @@
 	<li class="nav-item active">
 		<a class="nav-link" href="{% url 'index' %}">
 			<i class="fas fa-fw fa-tachometer-alt"></i>
-			<span>Dashboard</span></a
-		>
+			<span>Dashboard</span></a>
 	</li>
 
 	<!-- Divider -->
@@ -40,57 +30,42 @@
 
 	<!-- Nav Item - Charts -->
 	<li class="nav-item">
-		<a
-			class="nav-link collapsed"
-			href="#"
-			data-toggle="collapse"
-			data-target="#collapseUpload"
-			aria-expanded="true"
-			aria-controls="collapsePages"
-		>
+		<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUpload" aria-expanded="true" aria-controls="collapsePages">
 			<i class="fas fa-fw fa-folder"></i>
 			<span>upload asset</span>
 		</a>
-		<div
-			id="collapseUpload"
-			class="collapse"
-			aria-labelledby="headingPages"
-			data-parent="#accordionSidebar"
-		>
+		<div id="collapseUpload" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
 			<div class="bg-white py-2 collapse-inner rounded">
 				<h6 class="collapse-header">upload</h6>
 				<a class="collapse-item" href="{% url 'uploadPhoto' %}">upload photo</a>
-				<a class="collapse-item" href="{% url 'uploadDocument' %}"
-					>upload document</a
-				>
+				<a class="collapse-item" href="{% url 'uploadDocument' %}">upload document</a>
 			</div>
 		</div>
 	</li>
 
 	<li class="nav-item">
-		<a
-			class="nav-link collapsed"
-			href="#"
-			data-toggle="collapse"
-			data-target="#collapseView"
-			aria-expanded="true"
-			aria-controls="collapsePages"
-		>
+		<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseView" aria-expanded="true" aria-controls="collapsePages">
 			<i class="fas fa-fw fa-folder"></i>
 			<span>view asset</span>
 		</a>
-		<div
-			id="collapseView"
-			class="collapse"
-			aria-labelledby="headingPages"
-			data-parent="#accordionSidebar"
-		>
+		<div id="collapseView" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
 			<div class="bg-white py-2 collapse-inner rounded">
 				<h6 class="collapse-header">upload</h6>
 				<a class="collapse-item" href="{% url 'photo' %}">view photo</a>
-				<a class="collapse-item" href="{% url 'gallery' %}"
-					>view photo gallery</a
-				>
+				<a class="collapse-item" href="{% url 'gallery' %}">view photo gallery</a>
+			</div>
+		</div>
+	</li>
+
+	<li class="nav-item">
+		<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseView" aria-expanded="true" aria-controls="collapsePages">
+			<i class="fas fa-fw fa-folder"></i>
+			<span>Mayan</span>
+		</a>
+		<div id="collapseView" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+			<div class="bg-white py-2 collapse-inner rounded">
+				<a class="collapse-item" href="localhost:80">mayan documents</a>
+				<a class="collapse-item" href="localhost:80">mayan view document</a>
 			</div>
 		</div>
 	</li>

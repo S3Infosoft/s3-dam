@@ -1,18 +1,15 @@
-{% extends "base.html" %} {% load crispy_forms_tags %} {% block title %}{{ title
-}} :: {% endblock title %} {% block content %}
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}{{ title }} :: {% endblock title %} {% block content %}
+
+
 <div class="container">
 	<div class="row">
 		<div class="card shadow text-center" style="margin: 5%;">
 			<div class="card-header py-2 text-center">
 				<span class="text-dark text-lg font-weight-bold"> Upload Document</span>
 			</div>
-			<form
-				method="POST"
-				id="DocForm"
-				enctype="multipart/form-data"
-				class="form-horizontal"
-				novalidate=""
-			>
+			<form method="POST" id="data" enctype="multipart/form-data" class="form-horizontal" novalidate="">
 				{% csrf_token %}
 				<fieldset>
 					<div class="form-group">
@@ -21,9 +18,7 @@
 						</label>
 						<div class="col-sm-10">
 							<textarea name="description" class="form-control"></textarea>
-							<span class="help-block"
-								>An optional short text describing a document.</span
-							>
+							<span class="help-block">An optional short text describing a document.</span>
 						</div>
 					</div>
 					<div class="form-group">
@@ -60,16 +55,11 @@
 						</label>
 						<div class="col-sm-10">
 							<input name="language" class="form-control" type="text" />
-							<span class="help-block"
-								>The dominant language in the document.</span
-							>
+							<span class="help-block">The dominant language in the document.</span>
 						</div>
 					</div>
 					<div class="form-actions">
-						<button
-							class="btn btn-primary"
-							title="Make a POST request on the Api Document List resource"
-						>
+						<button class="btn btn-primary">
 							POST
 						</button>
 					</div>
@@ -80,7 +70,7 @@
 </div>
 {% endblock content %} {% block extra_script %}
 <script>
-	////getting crsf token ///////////////////////////////////
+	// ////getting crsf token ///////////////////////////////////
 	function getCookie(name) {
 		var cookieValue = null;
 		if (document.cookie && document.cookie !== "") {
@@ -105,7 +95,7 @@
 	var csrftoken = getCookie("csrftoken");
 
 	$.ajaxSetup({
-		beforeSend: function (xhr, settings) {
+		beforeSend: function(xhr, settings) {
 			if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
 				xhr.setRequestHeader("X-CSRFToken", csrftoken);
 			}
@@ -114,7 +104,7 @@
 
 	//////////////////////////////////////////////////////////
 
-	$("form#data").submit(function (e) {
+	$("form#data").submit(function(e) {
 		e.preventDefault();
 		var formData = new FormData(this);
 		console.log(formData);
@@ -122,7 +112,7 @@
 		$.ajax({
 			url: "http://localhost/api/documents/",
 			header: {
-				Authorization: "Token 87623b7d86f5a0fc3ff5b8c51bc7805dda23833a",
+				Authorization: "Bearer 2af2736aecde6bdadd602e12f3b79f862854de7c",
 			},
 			type: "POST",
 			dataType: "json",
@@ -130,7 +120,7 @@
 			cache: false,
 			contentType: false,
 			processData: false,
-			success: function (data) {
+			success: function(data) {
 				alert(data);
 			},
 		});
