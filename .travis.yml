@@ -11,7 +11,7 @@ before_script:
   - docker-compose run --user='root' app chmod -R 777 .
 
 script:
-  - docker-compose run app sh -c "mkdir logs/ && coverage run --parallel-mode --source=. manage.py test && flake8"
+  - docker-compose run app sh -c "coverage run --parallel-mode --source=. manage.py test && flake8"
 
 after_success:
   - cp app/.coverage.* ./
