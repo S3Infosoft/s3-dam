@@ -1,10 +1,8 @@
 version: "3"
 
-
 networks:
   bridge:
     driver: bridge
-
 
 services:
   app:
@@ -23,6 +21,8 @@ services:
       - DB_PORT=5432
     depends_on:
       - db
+    networks:
+      - bridge
     command: >
       sh -c "mkdir -p logs media &&
              python manage.py runserver 0.0.0.0:8000"
@@ -34,6 +34,8 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+    networks:
+      - bridge
     environment:
       - POSTGRES_USER=insights
       - POSTGRES_DB=app
@@ -112,7 +114,7 @@ services:
       sh -c "python manage.py process_tasks --sleep=3 --log-std --traceback"
 
 volumes:
-    postgres_data:
-    mayandb_data:
-    MAYAN_APP_VOLUME:
-    redis:
+  postgres_data:
+  mayandb_data:
+  MAYAN_APP_VOLUME:
+  redis:

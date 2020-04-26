@@ -1,7 +1,5 @@
-{% extends "base.html" %}
-{% load crispy_forms_tags %}
-{% block title %}{{ title }} :: {% endblock title %} {% block content %}
-
+{% extends "base.html" %} {% load crispy_forms_tags %} {% block title %}{{ title
+}} :: {% endblock title %} {% block content %}
 
 <div class="container">
 	<div class="row">
@@ -9,7 +7,7 @@
 			<div class="card-header py-2 text-center">
 				<span class="text-dark text-lg font-weight-bold"> Upload Document</span>
 			</div>
-			<form method="POST" id="data" enctype="multipart/form-data" class="form-horizontal" novalidate="">
+			<form method="POST" id="data" class="form-horizontal">
 				{% csrf_token %}
 				<fieldset>
 					<div class="form-group">
@@ -18,7 +16,9 @@
 						</label>
 						<div class="col-sm-10">
 							<textarea name="description" class="form-control"></textarea>
-							<span class="help-block">An optional short text describing a document.</span>
+							<span class="help-block"
+								>An optional short text describing a document.</span
+							>
 						</div>
 					</div>
 					<div class="form-group">
@@ -37,7 +37,7 @@
 							File
 						</label>
 						<div class="col-sm-10">
-							<input name="file" type="file" />
+							<input name="file" type="file" id="file" />
 						</div>
 					</div>
 					<div class="form-group">
@@ -55,7 +55,9 @@
 						</label>
 						<div class="col-sm-10">
 							<input name="language" class="form-control" type="text" />
-							<span class="help-block">The dominant language in the document.</span>
+							<span class="help-block"
+								>The dominant language in the document.</span
+							>
 						</div>
 					</div>
 					<div class="form-actions">
@@ -95,24 +97,27 @@
 	var csrftoken = getCookie("csrftoken");
 
 	$.ajaxSetup({
-		beforeSend: function(xhr, settings) {
+		beforeSend: function (xhr, settings) {
 			if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
 				xhr.setRequestHeader("X-CSRFToken", csrftoken);
 			}
 		},
 	});
 
-	//////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////
 
-	$("form#data").submit(function(e) {
+	$("form#data").submit(function (e) {
+		console.log(e);
 		e.preventDefault();
-		var formData = new FormData(this);
+		var formData = new FormData();
+		formData.append("file", $("#file")[0].files[0]);
+		formData.append("document_type", "1");
 		console.log(formData);
 
 		$.ajax({
 			url: "http://localhost/api/documents/",
 			header: {
-				Authorization: "Bearer 2af2736aecde6bdadd602e12f3b79f862854de7c",
+				Authorization: "Bearer 3aa3a1f4653d973382742111cf42df8193413f9f",
 			},
 			type: "POST",
 			dataType: "json",
@@ -120,7 +125,7 @@
 			cache: false,
 			contentType: false,
 			processData: false,
-			success: function(data) {
+			success: function (data) {
 				alert(data);
 			},
 		});

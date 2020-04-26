@@ -1,0 +1,48 @@
+{% extends "photologue/photo_detail.html" %}
+{% load photologue_tags i18n %}
+{%block title %}{{ object.title }}{% endblock %}
+
+
+{% block content %}
+
+<div class="row">
+	<h1 class="page-header">{{ object.title }}</h1>
+
+	<p class="muted">
+		<small>{% trans "Published" %} {{ object.date_added }}</small>
+	</p>
+</div>
+
+<div class="row" style="margin-top:4%;">
+	<div class="col-md-6">
+		<a href="{{ object.image.url }}">
+			<img
+				src="{{ object.get_display_url }}"
+				class="thumbnail"
+				alt="{{ object.title }}"
+			/>
+		</a>
+
+		{% if object.caption %}
+		<p style="margin-top:2%">{{ object.caption|safe }}</p>
+		{% endif %}
+	</div>
+	<div class="col-md-6">
+		{% if object.public_galleries %}
+		<p>{% trans "This photo is found in the following galleries" %}:</p>
+		<table>
+			{% for gallery in object.public_galleries %}
+			<tr>
+				<td>{% previous_in_gallery object gallery %}</td>
+				<td class="text-center">
+					<a href="{{ gallery.get_absolute_url }}" style="margin:2%;">{{ gallery.title }}</a>
+				</td>
+				<td>{% next_in_gallery object gallery %}</td>
+			</tr>
+			{% endfor %}
+		</table>
+		{% endif %}
+	</div>
+</div>
+
+{% endblock %}
