@@ -7,11 +7,12 @@ services:
 
 before_script:
   - pip install docker-compose
+  - pip install coverage
   - pip install coveralls
   - docker-compose run --user='root' app chmod -R 777 .
 
 script:
-  - docker-compose run app sh -c "mkdir logs/ && coverage run --parallel-mode --source=. manage.py test && flake8"
+  - docker-compose run --rm app sh -c 'python manage.py test'
 
 after_success:
   - cp app/.coverage.* ./
