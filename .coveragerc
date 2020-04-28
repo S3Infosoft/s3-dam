@@ -1,0 +1,14 @@
+[run]
+source = .
+parallel = True
+omit =
+  */tests/*
+  *apps.py
+  *__init__.py
+  */migrations/*
+
+
+[paths]
+source =
+  app/
+  /app/
