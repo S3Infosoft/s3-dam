@@ -1,6 +1,7 @@
 # s3-dam
 Digital Asset Manager
 
+[![Build Status](https://travis-ci.com/S3Infosoft/s3-dam.svg?branch=master)](https://travis-ci.com/S3Infosoft/s3-dam)
 
 
 #### Initial Steps
