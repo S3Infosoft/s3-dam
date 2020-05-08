@@ -31,11 +31,7 @@ def uploadPhoto(request):
         return redirect("uploadPhoto")
     imageform = PhotoUploadForm()
     zipform = UploadZipForm()
-    data = {
-        "title": "upload image",
-        "imageform": imageform,
-        "zipform": zipform,
-    }
+    data = {"title": "upload image", "imageform": imageform, "zipform": zipform}
     return render(request, "upload/uploadPhoto.html", data)
 
 
@@ -44,10 +40,7 @@ def uploadDocument(request):
         return _document_upload(request)
 
     form = documentForm()
-    data = {
-        "title": "upload document",
-        "documentForm": form,
-    }
+    data = {"title": "upload document", "documentForm": form}
     return render(request, "upload/uploadDocument.html", data)
 
 
@@ -55,6 +48,7 @@ def _document_upload(request):
     myfile = request.FILES["file"]
     fs = FileSystemStorage()
     filename = fs.save(myfile.name, myfile)
+    # api call
     ip = str("192.168.43.61")
     url = "http://" + ip + ":80/api/documents/"
     with open(".." + fs.path(filename), mode="rb") as file_object:
@@ -65,11 +59,8 @@ def _document_upload(request):
             data={"document_type": 1},
         ).json()
     print(document)
-    os.remove(".." + fs.path(filename))
+    #
     form = documentForm()
-    data = {
-        "title": "upload document",
-        "documentForm": form,
-    }
+    data = {"title": "upload document", "documentForm": form}
     messages.success(request, "documentc uploaded")
     return render(request, "upload/uploadDocument.html", data)

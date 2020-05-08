@@ -63,14 +63,11 @@ class CustomUserManagerTestCase(TestCase):
 
         with self.assertRaises(ValueError):
             get_user_model().objects.create_superuser(
-                email="oracle@django.com",
-                password="django123",
-                is_superuser=False
+                email="oracle@django.com", password="django123", is_superuser=False
             )
 
 
 class GlobalInfoModelTestCase(TestCase):
-
     def test_model_instance_is_created_on_first_signup(self):
         self.assertEqual(GlobalInfo.objects.count(), 0)
 

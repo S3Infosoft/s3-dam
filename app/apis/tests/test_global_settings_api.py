@@ -27,8 +27,7 @@ class PrivateAPIGlobalSettingsTestCase(APITestCase):
     """Test for API with authenticated users"""
 
     def setUp(self):
-        self.user = get_user_model().objects.create_user("test@test.com",
-                                                         "django123")
+        self.user = get_user_model().objects.create_user("test@test.com", "django123")
         self.client = APIClient()
         self.client.force_authenticate(self.user)
 
@@ -43,8 +42,7 @@ class PrivateAPIGlobalSettingsTestCase(APITestCase):
             img.save(tmplogo, format="JPEG")
             tmplogo.seek(0)
 
-            res = self.client.patch(SETTINGS_URL, {"logo": tmplogo},
-                                    format="multipart")
+            res = self.client.patch(SETTINGS_URL, {"logo": tmplogo}, format="multipart")
 
             obj = GlobalInfo.objects.first()
 
@@ -60,11 +58,12 @@ class PrivateAPIGlobalSettingsTestCase(APITestCase):
         self.assertEqual(res.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def test_uploading_invalid_logo(self):
-        res = self.client.patch(SETTINGS_URL, {"logo": "abba dabba jappa"},
-                                format="multipart")
+        res = self.client.patch(
+            SETTINGS_URL, {"logo": "abba dabba jappa"}, format="multipart"
+        )
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_sending_address_more_than_limit(self):
-        res = self.client.put(SETTINGS_URL, {"address": "yo"*351})
+        res = self.client.put(SETTINGS_URL, {"address": "yo" * 351})
 
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)

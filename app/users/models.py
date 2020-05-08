@@ -66,12 +66,11 @@ class CustomUser(auth_models.AbstractUser):
     """
     CustomUser model with email and password for authentication
     """
+
     username = None
     email = models.EmailField(_("email address"), unique=True)
     image = models.ImageField(upload_to=save_image, blank=True, null=True)
-    image_thumb = models.ImageField(upload_to=save_thumb,
-                                    blank=True,
-                                    null=True)
+    image_thumb = models.ImageField(upload_to=save_thumb, blank=True, null=True)
 
     objects = CustomUserManager()
 
@@ -92,7 +91,7 @@ class CustomUser(auth_models.AbstractUser):
         return reverse("profile")
 
     def save(self, *args, **kwargs):
-        created = self._state.adding        # created or updated
+        created = self._state.adding  # created or updated
         image_updated = False
 
         if not created:
@@ -160,7 +159,7 @@ class GlobalInfo(models.Model):
         if self.__class__.objects.count():
             self.pk = self.__class__.objects.first().pk
 
-        created = self._state.adding    # Whether object created or updated
+        created = self._state.adding  # Whether object created or updated
         logo_updated = False
 
         if not created:

@@ -16,8 +16,7 @@ class CRUDEventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CRUDEvent
-        exclude = ("object_id", "user_pk_as_string",
-                   "object_json_repr")
+        exclude = ("object_id", "user_pk_as_string", "object_json_repr")
 
     @staticmethod
     def get_event_type(obj):

@@ -6,24 +6,21 @@ from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 
 
 class CustomUserCreateForm(UserCreationForm):
-
     class Meta(UserCreationForm):
         model = get_user_model()
-        fields = "email",
+        fields = ("email",)
 
 
 class CustomUserChangeForm(UserChangeForm):
-
     class Meta:
         model = get_user_model()
-        fields = "email",
+        fields = ("email",)
 
 
 class RegisterForm(UserCreationForm):
-
     class Meta(UserCreationForm):
         model = get_user_model()
-        fields = "email", "first_name", "last_name",
+        fields = "email", "first_name", "last_name"
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -38,9 +35,9 @@ class GlobalInfoAdminForm(forms.ModelForm):
 
 
 class GlobalInfoForm(forms.ModelForm):
-    clear = forms.BooleanField(widget=forms.CheckboxInput(attrs={
-        "class": "form-check-input"
-    }), required=False)
+    clear = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={"class": "form-check-input"}), required=False
+    )
 
     class Meta:
         model = models.GlobalInfo
@@ -49,12 +46,14 @@ class GlobalInfoForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(GlobalInfoForm, self).__init__(*args, **kwargs)
         self.fields["logo"].widget.attrs = {"class": "custom-file-input"}
-        self.fields["address"].widget = forms.Textarea(attrs={
-            "class": "form-control",
-            "placeholder": "Your address",
-            "maxlength": 350,
-            "style": "height: 150px"
-        })
+        self.fields["address"].widget = forms.Textarea(
+            attrs={
+                "class": "form-control",
+                "placeholder": "Your address",
+                "maxlength": 350,
+                "style": "height: 150px",
+            }
+        )
 
     def save(self, commit=True):
         user_info = super(GlobalInfoForm, self).save(commit=False)

@@ -7,10 +7,7 @@ from django import forms
 class PhotoUploadForm(forms.ModelForm):
     class Meta:
         model = Photo
-        exclude = (
-            "sites",
-            "date_added",
-        )
+        exclude = ("sites", "date_added")
 
 
 class documentForm(forms.Form):

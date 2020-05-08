@@ -19,11 +19,8 @@ def password_reset_confirm_url(uid, token):
 
 
 class TestCaseWithUser(TestCase):
-
     def setUp(self):
-        self.user = get_user_model().objects.create_user(
-            "test@django.com", "django123"
-        )
+        self.user = get_user_model().objects.create_user("test@django.com", "django123")
 
 
 class LoginViewTestCase(TestCase):
@@ -33,8 +30,7 @@ class LoginViewTestCase(TestCase):
 
     def setUp(self):
         self.user = get_user_model().objects.create_user(
-            email="test@django.com",
-            password="django123",
+            email="test@django.com", password="django123"
         )
 
     def test_login_page_loads_successfull(self):
@@ -46,10 +42,9 @@ class LoginViewTestCase(TestCase):
 
     def test_login_page_redirects_successfully(self):
 
-        res = self.client.post(LOGIN_URL, data={
-            "username": "test@django.com",
-            "password": "django123",
-        })
+        res = self.client.post(
+            LOGIN_URL, data={"username": "test@django.com", "password": "django123"}
+        )
 
         self.assertEqual(res.status_code, 302)
         self.assertRedirects(res, reverse("index"))
@@ -65,7 +60,6 @@ class LoginViewTestCase(TestCase):
 
 
 class RegisterViewTestCase(TestCase):
-
     def test_register_page_loads_successfully(self):
 
         res = self.client.get(REGISTER_URL)
@@ -124,17 +118,16 @@ class RegisterViewTestCase(TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertTemplateUsed(res, "users/register.html")
         self.assertFormError(
-            res,
-            "form",
-            "email",
-            "User with this Email address already exists."
+            res, "form", "email", "User with this Email address already exists."
         )
 
     def test_register_page_redirects_on_logged_in_user(self):
 
-        self.client.force_login(get_user_model().objects.create_user(
-            email="abhie@python.com", password="django123",
-        ))
+        self.client.force_login(
+            get_user_model().objects.create_user(
+                email="abhie@python.com", password="django123"
+            )
+        )
 
         res = self.client.get(REGISTER_URL)
 
@@ -150,12 +143,11 @@ class IndexViewTestCase(TestCase):
         res = self.client.get(INDEX_URL)
 
         self.assertEqual(res.status_code, 302)
-        self.assertRedirects(res, LOGIN_URL+"?next="+INDEX_URL)
+        self.assertRedirects(res, LOGIN_URL + "?next=" + INDEX_URL)
 
     def test_page_access_to_authenticated_users(self):
 
-        user = get_user_model().objects.create_user("test@django.com",
-                                                    "django123")
+        user = get_user_model().objects.create_user("test@django.com", "django123")
         self.client.force_login(user)
 
         res = self.client.get(INDEX_URL)
@@ -172,7 +164,7 @@ class PasswordChangeViewTestCaseLoggedOut(TestCase):
         res = self.client.get(PASSWORD_CHANGE)
 
         self.assertEquals(res.status_code, 302)
-        self.assertRedirects(res, LOGIN_URL+"?next=/password/change/")
+        self.assertRedirects(res, LOGIN_URL + "?next=/password/change/")
 
 
 class PasswordChangeViewTestCaseLoggedIn(TestCaseWithUser):
@@ -216,11 +208,12 @@ class PasswordChangeViewTestCaseLoggedIn(TestCaseWithUser):
 
         self.assertEquals(res.status_code, 200)
         self.assertTemplateUsed(res, "registration/password_change_form.html")
-        self.assertFormError(res,
-                             "form",
-                             "old_password",
-                             "Your old password was entered incorrectly. "
-                             "Please enter it again.")
+        self.assertFormError(
+            res,
+            "form",
+            "old_password",
+            "Your old password was entered incorrectly. " "Please enter it again.",
+        )
 
     def test_page_error_on_repeat_password_doesnt_match(self):
 
@@ -234,9 +227,9 @@ class PasswordChangeViewTestCaseLoggedIn(TestCaseWithUser):
 
         self.assertEqual(res.status_code, 200)
         self.assertTemplateUsed(res, "registration/password_change_form.html")
-        self.assertFormError(res, "form",
-                             "new_password2",
-                             "The two password fields didn't match.")
+        self.assertFormError(
+            res, "form", "new_password2", "The two password fields didn't match."
+        )
 
 
 class PasswordResetViewTestCase(TestCaseWithUser):
@@ -257,8 +250,7 @@ class PasswordResetViewTestCase(TestCaseWithUser):
         self.assertRedirects(res, reverse("password_reset_done"))
 
     def test_page_sends_email_successfully(self):
-        res = self.client.post(PASSWORD_RESET,
-                               data={"email": "test@django.com"})
+        res = self.client.post(PASSWORD_RESET, data={"email": "test@django.com"})
         from django.core import mail
 
         self.assertEqual(res.status_code, 302)
@@ -267,13 +259,9 @@ class PasswordResetViewTestCase(TestCaseWithUser):
 
     def test_page_changes_password_and_redirects(self):
 
-        params = {
-            "new_password1": "its_six_am",
-            "new_password2": "its_six_am",
-        }
+        params = {"new_password1": "its_six_am", "new_password2": "its_six_am"}
 
-        res = self.client.post(PASSWORD_RESET,
-                               data={"email": self.user.email})
+        res = self.client.post(PASSWORD_RESET, data={"email": self.user.email})
         from django.core import mail
 
         self.assertEqual(res.status_code, 302)
@@ -299,17 +287,16 @@ class PasswordResetViewTestCase(TestCaseWithUser):
 
 
 class UserDetailPageUnAuth(TestCase):
-
     def test_redirect_to_login(self):
         res = self.client.get(PROFILE_URL)
 
         self.assertEqual(res.status_code, 302)
-        self.assertRedirects(res, "{}?next={}".format(reverse("login"),
-                                                      reverse("profile")))
+        self.assertRedirects(
+            res, "{}?next={}".format(reverse("login"), reverse("profile"))
+        )
 
 
 class UserProfileAuth(TestCaseWithUser):
-
     def setUp(self):
         super(UserProfileAuth, self).setUp()
         self.client.force_login(self.user)

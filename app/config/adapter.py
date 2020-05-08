@@ -3,7 +3,6 @@ from django.contrib.auth import get_user_model
 
 
 class CustomSocialAdapter(DefaultSocialAccountAdapter):
-
     def pre_social_login(self, request, sociallogin):
         user = sociallogin.user
         if user.id:

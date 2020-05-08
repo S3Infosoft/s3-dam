@@ -20,9 +20,9 @@ class UserPasswordSet(mixins.LoginRequiredMixin, PasswordSetView):
     success_url = reverse_lazy("profile")
 
 
-class GlobalInfoDetailUpdate(mixins.LoginRequiredMixin,
-                             SuccessMessageMixin,
-                             generic.UpdateView):
+class GlobalInfoDetailUpdate(
+    mixins.LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView
+):
     model = GlobalInfo
     form_class = GlobalInfoForm
     success_message = "Your settings have been successfully updated."
@@ -32,11 +32,11 @@ class GlobalInfoDetailUpdate(mixins.LoginRequiredMixin,
         return GlobalInfo.objects.first()
 
 
-class ProfileDetailUpdate(mixins.LoginRequiredMixin,
-                          SuccessMessageMixin,
-                          generic.UpdateView):
+class ProfileDetailUpdate(
+    mixins.LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView
+):
     model = get_user_model()
-    fields = "email", "first_name", "last_name", "image",
+    fields = "email", "first_name", "last_name", "image"
     template_name = "users/profile.html"
     success_message = "Your profile has been successfully updated."
 
@@ -46,9 +46,9 @@ class ProfileDetailUpdate(mixins.LoginRequiredMixin,
 
     def get_context_data(self):
         ctx = super(ProfileDetailUpdate, self).get_context_data()
-        ctx["additional_form"] = GlobalInfoForm(initial={
-            "address": GlobalInfo.objects.first().address
-        })
+        ctx["additional_form"] = GlobalInfoForm(
+            initial={"address": GlobalInfo.objects.first().address}
+        )
 
         return ctx
 
@@ -85,8 +85,9 @@ class RegisterView(SuccessMessageMixin, generic.CreateView):
     form_class = RegisterForm
     success_url = reverse_lazy("login")
     template_name = "users/register.html"
-    success_message = "You have been successfully registered," \
-                      " login with your email and password."
+    success_message = (
+        "You have been successfully registered," " login with your email and password."
+    )
 
     def get(self, request, *args, **kwargs):
 
@@ -113,17 +114,16 @@ class PasswordChangeView(SuccessMessageMixin, views.PasswordChangeView):
 
 
 class PasswordResetView(views.PasswordResetView):
-
     def form_valid(self, form):
         email = form.cleaned_data["email"]
         logger.info("PASSWORD-RESET request for {}".format(email))
         return super(PasswordResetView, self).form_valid(form)
 
 
-class PasswordResetConfirmView(SuccessMessageMixin,
-                               views.PasswordResetConfirmView):
-    success_message = "Your new password has been set," \
-                      " login with email and new password."
+class PasswordResetConfirmView(SuccessMessageMixin, views.PasswordResetConfirmView):
+    success_message = (
+        "Your new password has been set," " login with email and new password."
+    )
 
     def form_valid(self, form):
         user_id = urlsafe_base64_decode(self.kwargs.get("uidb64"))

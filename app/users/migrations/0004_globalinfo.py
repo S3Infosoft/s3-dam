@@ -5,17 +5,26 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('users', '0003_auto_20190620_0738'),
-    ]
+    dependencies = [("users", "0003_auto_20190620_0738")]
 
     operations = [
         migrations.CreateModel(
-            name='GlobalInfo',
+            name="GlobalInfo",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('logo', models.ImageField(blank=True, null=True, upload_to='logo/%Y/%m')),
-                ('address', models.CharField(blank=True, max_length=350, null=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "logo",
+                    models.ImageField(blank=True, null=True, upload_to="logo/%Y/%m"),
+                ),
+                ("address", models.CharField(blank=True, max_length=350, null=True)),
             ],
-        ),
+        )
     ]

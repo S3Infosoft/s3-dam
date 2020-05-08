@@ -83,10 +83,9 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-            ],
-
+            ]
         },
-    },
+    }
 ]
 
 WSGI_APPLICATION = "config.wsgi.application"
@@ -111,11 +110,11 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
     },
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
 
@@ -165,7 +164,7 @@ LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
     "formatters": {
-        "format": {"format": "%(levelname)s: %(filename)s: %(asctime)s: %(message)s",}
+        "format": {"format": "%(levelname)s: %(filename)s: %(asctime)s: %(message)s"}
     },
     "handlers": {
         "auth_file": {
@@ -182,8 +181,8 @@ LOGGING = {
         },
     },
     "loggers": {
-        "auth": {"handlers": ["auth_file"], "level": "INFO", "propagate": True,},
-        "api": {"handlers": ["api_file"], "level": "INFO", "propagate": True,},
+        "auth": {"handlers": ["auth_file"], "level": "INFO", "propagate": True},
+        "api": {"handlers": ["api_file"], "level": "INFO", "propagate": True},
     },
 }
 

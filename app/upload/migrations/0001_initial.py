@@ -7,19 +7,26 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='document',
+            name="document",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('description', models.TextField(blank=True)),
-                ('document_type', models.CharField(blank=True, max_length=10)),
-                ('document_id', models.IntegerField(blank=True)),
-                ('label', models.TextField(blank=True)),
-                ('language', models.CharField(blank=True, max_length=10)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("description", models.TextField(blank=True)),
+                ("document_type", models.CharField(blank=True, max_length=10)),
+                ("document_id", models.IntegerField(blank=True)),
+                ("label", models.TextField(blank=True)),
+                ("language", models.CharField(blank=True, max_length=10)),
             ],
-        ),
+        )
     ]

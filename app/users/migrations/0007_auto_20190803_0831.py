@@ -6,19 +6,27 @@ import users.models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('users', '0006_auto_20190803_0830'),
-    ]
+    dependencies = [("users", "0006_auto_20190803_0830")]
 
     operations = [
         migrations.AlterField(
-            model_name='customuser',
-            name='_image',
-            field=models.ImageField(blank=True, null=True, upload_to=users.models.save_image, verbose_name='image'),
+            model_name="customuser",
+            name="_image",
+            field=models.ImageField(
+                blank=True,
+                null=True,
+                upload_to=users.models.save_image,
+                verbose_name="image",
+            ),
         ),
         migrations.AlterField(
-            model_name='customuser',
-            name='_image_thumb',
-            field=models.ImageField(blank=True, null=True, upload_to=users.models.save_thumb, verbose_name='image_thumb'),
+            model_name="customuser",
+            name="_image_thumb",
+            field=models.ImageField(
+                blank=True,
+                null=True,
+                upload_to=users.models.save_thumb,
+                verbose_name="image_thumb",
+            ),
         ),
     ]
