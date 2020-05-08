@@ -31,3 +31,11 @@ INFO: views.py: 2020-04-26 22:00:13,913: LOGIN by i@g.com
 INFO: views.py: 2020-04-26 22:02:39,418: LOGIN by i@g.com
 INFO: views.py: 2020-04-26 22:36:05,242: LOGIN by i@g.com
 INFO: views.py: 2020-04-26 22:44:30,605: LOGIN by i@g.com
+INFO: views.py: 2020-05-03 05:15:13,387: REGISTRATION by vinayakpip@gmail.com
+INFO: views.py: 2020-05-03 05:15:26,588: LOGIN by vinayakpip@gmail.com
+INFO: views.py: 2020-05-03 05:49:07,117: LOGIN by vinayakpip@gmail.com
+INFO: views.py: 2020-05-07 19:47:36,539: REGISTRATION by vinayak@iert.ac.in
+INFO: views.py: 2020-05-07 19:47:51,494: LOGIN by vinayak@iert.ac.in
+INFO: views.py: 2020-05-07 20:25:10,858: LOGIN by vinayak@iert.ac.in
+INFO: views.py: 2020-05-07 20:33:00,450: LOGIN by vinayak@iert.ac.in
+INFO: views.py: 2020-05-07 20:37:03,128: LOGIN by vinayak@iert.ac.in
