@@ -53,19 +53,7 @@
 				<h6 class="collapse-header">upload</h6>
 				<a class="collapse-item" href="{% url 'photo' %}">view photo</a>
 				<a class="collapse-item" href="{% url 'gallery' %}">view photo gallery</a>
-			</div>
-		</div>
-	</li>
-
-	<li class="nav-item">
-		<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMayan" aria-expanded="true" aria-controls="collapsePages">
-			<i class="fas fa-fw fa-folder"></i>
-			<span>Mayan</span>
-		</a>
-		<div id="collapseMayan" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-			<div class="bg-white py-2 collapse-inner rounded">
-				<a class="collapse-item" href="http://localhost/#/sources/documents/create/from/local/multiple/">mayan documents</a>
-				<a class="collapse-item" href="http://localhost/#/documents/documents/">mayan view document</a>
+				<a class="collapse-item" href="{% url 'viewDocument' %}">view document</a>
 			</div>
 		</div>
 	</li>

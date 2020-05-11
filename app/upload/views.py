@@ -1,30 +1,20 @@
-import socket
-import requests
-import os
 from django.shortcuts import render, redirect
 from django.contrib import messages
-
-from django.conf import settings
-from django.core.files.storage import FileSystemStorage
-
-
-#### for photologue #######################
 from .forms import *
+from .models import *
 from photologue.forms import UploadZipForm
-
-###########################################
-
-hostname = socket.gethostname()
-IPAddr = socket.gethostbyname(hostname)
+from .mayan import documentUpload, documentView
 
 
 def uploadPhoto(request):
     if request.method == "POST":
         imageform = PhotoUploadForm(request.POST or None, request.FILES or None)
         zipform = UploadZipForm(request.POST or None, request.FILES or None)
+        # to save single image
         if imageform.is_valid():
             imageform.save()
             messages.success(request, "photos uploaded")
+        # to save a zip of image
         if zipform.is_valid():
             zipform.save()
             messages.success(request, "zip of photos uploaded")
@@ -37,30 +27,23 @@ def uploadPhoto(request):
 
 def uploadDocument(request):
     if request.method == "POST":
-        return _document_upload(request)
+        responce = documentUpload(request)
+        print(responce)
+        # create a document object
+        Document.objects.create(
+            description=responce["description"],
+            document_type=responce["document_type"],
+            document_id=responce["id"],
+            label=responce["label"],
+            language=responce["language"],
+        )
+        messages.success(request, "document uploaded")
+        return redirect("uploadDocument")
 
     form = documentForm()
     data = {"title": "upload document", "documentForm": form}
     return render(request, "upload/uploadDocument.html", data)
 
 
-def _document_upload(request):
-    myfile = request.FILES["file"]
-    fs = FileSystemStorage()
-    filename = fs.save(myfile.name, myfile)
-    # api call
-    ip = str("192.168.43.61")
-    url = "http://" + ip + ":80/api/documents/"
-    with open(".." + fs.path(filename), mode="rb") as file_object:
-        document = requests.post(
-            url,
-            auth=("s3infosoft", "admin"),
-            files={"file": file_object},
-            data={"document_type": 1},
-        ).json()
-    print(document)
-    #
-    form = documentForm()
-    data = {"title": "upload document", "documentForm": form}
-    messages.success(request, "documentc uploaded")
-    return render(request, "upload/uploadDocument.html", data)
+def viewDocument(request):
+    responce = documentView()
