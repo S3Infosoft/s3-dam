@@ -6,13 +6,11 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('asset', '0003_document_downloadurl'),
+        ("asset", "0003_document_downloadurl"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='document',
-            name='previewUrl',
-            field=models.URLField(blank=True),
+            model_name="document", name="previewUrl", field=models.URLField(blank=True),
         ),
     ]
