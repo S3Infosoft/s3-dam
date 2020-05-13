@@ -5,10 +5,21 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
+<<<<<<< HEAD
     dependencies = [("asset", "0001_initial")]
 
     operations = [
         migrations.AlterField(
             model_name="document", name="fileUrl", field=models.URLField(blank=True)
         )
+=======
+    dependencies = [
+        ("asset", "0001_initial"),
+    ]
+
+    operations = [
+        migrations.AlterField(
+            model_name="document", name="fileUrl", field=models.URLField(blank=True),
+        ),
+>>>>>>> 12cc8a162119b10802d20e23ccc52bc98341a975
     ]
