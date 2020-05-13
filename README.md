@@ -2,7 +2,7 @@
 Digital Asset Manager
 
 [![Build Status](https://travis-ci.com/S3Infosoft/s3-dam.svg?branch=master)](https://travis-ci.com/S3Infosoft/s3-dam)
-
+![autoblack_push](https://github.com/S3Infosoft/s3-dam/workflows/autoblack_push/badge.svg)
 
 #### Initial Steps
 - Go to the project directory
