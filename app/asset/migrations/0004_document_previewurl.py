@@ -5,14 +5,6 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-<<<<<<< HEAD
-    dependencies = [("asset", "0003_document_downloadurl")]
-
-    operations = [
-        migrations.AddField(
-            model_name="document", name="previewUrl", field=models.URLField(blank=True)
-        )
-=======
     dependencies = [
         ("asset", "0003_document_downloadurl"),
     ]
@@ -21,5 +13,4 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="document", name="previewUrl", field=models.URLField(blank=True),
         ),
->>>>>>> 12cc8a162119b10802d20e23ccc52bc98341a975
     ]
