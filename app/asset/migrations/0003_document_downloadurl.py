@@ -5,14 +5,10 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ("asset", "0002_auto_20200513_2109"),
-    ]
+    dependencies = [("asset", "0002_auto_20200513_2109")]
 
     operations = [
         migrations.AddField(
-            model_name="document",
-            name="downloadUrl",
-            field=models.URLField(blank=True),
-        ),
+            model_name="document", name="downloadUrl", field=models.URLField(blank=True)
+        )
     ]
