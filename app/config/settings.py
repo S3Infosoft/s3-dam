@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.facebook",
     # Apps
     "users.apps.UsersConfig",
-    "upload",
+    "asset",
     "apis.apps.ApisConfig",
 ]
 

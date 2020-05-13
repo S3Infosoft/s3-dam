@@ -10,7 +10,9 @@ class Document(models.Model):
     description = models.TextField(blank=True)
     document_type = models.CharField(max_length=10, blank=True)
     document_id = models.IntegerField(blank=True)
-    fileUrl = models.CharField(max_length=10, blank=True)
+    fileUrl = models.URLField(max_length=200, blank=True)
+    downloadUrl = models.URLField(max_length=200, blank=True)
+    previewUrl = models.URLField(max_length=200, blank=True)
     label = models.TextField(blank=True)
     language = models.CharField(max_length=10, blank=True)
 

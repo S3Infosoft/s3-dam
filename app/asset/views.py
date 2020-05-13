@@ -3,7 +3,7 @@ from django.contrib import messages
 from .forms import *
 from .models import *
 from photologue.forms import UploadZipForm
-from .mayan import documentUpload, documentView
+from .mayan import documentUpload
 
 
 def uploadPhoto(request):
@@ -22,17 +22,19 @@ def uploadPhoto(request):
     imageform = PhotoUploadForm()
     zipform = UploadZipForm()
     data = {"title": "upload image", "imageform": imageform, "zipform": zipform}
-    return render(request, "upload/uploadPhoto.html", data)
+    return render(request, "asset/uploadPhoto.html", data)
 
 
 def uploadDocument(request):
     if request.method == "POST":
         responce = documentUpload(request)
-        print(responce)
         # create a document object
         Document.objects.create(
             description=responce["description"],
             document_type=responce["document_type"],
+            fileUrl=responce["url"],
+            downloadUrl=responce["downloadUrl"],
+            previewUrl=responce["previewUrl"],
             document_id=responce["id"],
             label=responce["label"],
             language=responce["language"],
@@ -42,8 +44,10 @@ def uploadDocument(request):
 
     form = documentForm()
     data = {"title": "upload document", "documentForm": form}
-    return render(request, "upload/uploadDocument.html", data)
+    return render(request, "asset/uploadDocument.html", data)
 
 
 def viewDocument(request):
-    responce = documentView()
+    document = Document.objects.all()
+    data = {"title": "view document", "documents": document}
+    return render(request, "asset/viewDocument.html", data)

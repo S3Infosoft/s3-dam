@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %} {{ title }} :: {% endblock title %}
+
+{% block content %}
+
+{% if documents %}
+<div class="row">
+  <div style="margin-top: 3%; margin-left: 5%; margin-bottom: 15px;">
+    {% for document in documents %}
+    <a class="thumbnail" href="{{document.downloadUrl}}">
+      <img class="img-thumbnail" src="{{ document.previewUrl }}" class="thumbnail" alt="{{ document.label }}">
+    </a>
+    {% endfor %}
+  </div>
+</div>
+{% else %}
+<div class="row">No document were found</div>
+{% endif %}
+
+{% endblock content %}

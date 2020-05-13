@@ -28,6 +28,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/v1/", include("apis.urls")),
     path("", include("users.urls")),
-    path("upload/", include("upload.urls")),
+    path("asset/", include("asset.urls")),
     path("__debug__", include(debug_toolbar.urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
