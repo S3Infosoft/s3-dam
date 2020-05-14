@@ -7,6 +7,7 @@ from .models import Document
 
 
 ip = str("192.168.43.61")
+localIp = "http://localhost/"
 
 # variables
 mayanFileUploadUrl = "http://" + ip + ":80/api/documents/"
@@ -50,7 +51,7 @@ def getPreviewUrl(id):
     print(response)
     response = response.split("/")[3:]
     response = "/".join(response)
-    response = "http://localhost/" + response
+    response = localIp + response
     return response
 
 
@@ -59,7 +60,7 @@ def getDocumentUrl(id):
     function takes id
     and return formatted document url
     """
-    return "http://localhost/" + str(id) + "/"
+    return localIp + str(id) + "/"
 
 
 def getDocumentDownloadUrl(id):
@@ -67,4 +68,4 @@ def getDocumentDownloadUrl(id):
     function takes id
     and return formatted document download url
     """
-    return "http://localhost/" + str(id) + "/versions/" + str(id) + "/download/"
+    return localIp + str(id) + "/versions/" + str(id) + "/download/"
