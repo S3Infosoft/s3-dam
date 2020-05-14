@@ -5,12 +5,10 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ("asset", "0004_document_previewurl"),
-    ]
+    dependencies = [("asset", "0004_document_previewurl")]
 
     operations = [
-        migrations.RemoveField(model_name="document", name="downloadUrl",),
-        migrations.RemoveField(model_name="document", name="fileUrl",),
-        migrations.RemoveField(model_name="document", name="previewUrl",),
+        migrations.RemoveField(model_name="document", name="downloadUrl"),
+        migrations.RemoveField(model_name="document", name="fileUrl"),
+        migrations.RemoveField(model_name="document", name="previewUrl"),
     ]
